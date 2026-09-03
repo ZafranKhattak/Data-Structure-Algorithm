@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Scene I Wish I Could Replay</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;1,400&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Opening Screen */
+        #opening-screen, #end-screen {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+            transition: opacity 2s ease;
+        }
+
+        .opening-text {
+            font-size: 1.2rem;
+            line-height: 2;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 2s ease;
+            margin-bottom: 40px;
+            color: #d1d5db;
+        }
+
+        .opening-text.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .play-btn {
+            background: transparent;
+            color: #fff;
+            border: 1px solid #fff;
+            padding: 12px 30px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.5s ease;
+            text-transform: uppercase;
+        }
+
+        .play-btn:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        /* Cinematic Container */
+        #cinema-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at 70% 30%, #1a2a3a 0%, #03060a 70%);
+            overflow: hidden;
+            opacity: 0;
+            transition: all 2s ease;
+            transform-origin: center bottom;
+        }
+
+        /* Cinematic Letterbox (Black Bars) */
+        #cinema-container::before, #cinema-container::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 12%;
+            background: #000;
+            z-index: 100;
+        }
+        #cinema-container::before { top: 0; }
+        #cinema-container::after { bottom: 0; }
+
+        /* Rain Effect */
+        #rain-container {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 10;
+            opacity: 0.6;
+        }
+        .drop {
+            position: absolute;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.5));
+            width: 1px;
+            height: 15px;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-10vh); }
+            100% { transform: translateY(100vh); }
+        }
+
+        /* Characters (Silhouettes) */
+        .character {
+            position: absolute;
+            bottom: 12%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 20;
+            transition: all 3s ease-in-out;
+            filter: drop-shadow(-5px 0px 10px rgba(255,255,255,0.1));
+        }
+
+        .head {
+            width: 45px; height: 45px;
+            border-radius: 50%;
+            background: #050505;
+        }
+        .body {
+            width: 70px; height: 130px;
+            border-radius: 40px 40px 0 0;
+            background: #050505;
+            margin-top: 5px;
+        }
+
+        #hero { left: -20%; } /* Starts off-screen */
+        #nimoo { right: 25%; opacity: 0; transition: opacity 2s; } /* Female character slightly smaller */
+        #nimoo .head { width: 40px; height: 40px; }
+        #nimoo .body { width: 60px; height: 120px; }
+
+        /* Subtitles */
+        #subtitle-container {
+            position: absolute;
+            bottom: 15%;
+            width: 100%;
+            text-align: center;
+            z-index: 101; /* Above black bar */
+        }
+        #subtitle {
+            font-size: 1.3rem;
+            color: #e5e7eb;
+            text-shadow: 0px 2px 4px rgba(0,0,0,0.8);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            display: inline-block;
+            max-width: 80%;
+        }
+
+        /* Flashback Effects */
+        .blur-effect {
+            filter: blur(8px) brightness(0.5);
+            transition: filter 1s ease;
+        }
+        
+        #center-flash {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            font-weight: 600;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+            z-index: 50;
+            opacity: 0;
+            text-align: center;
+        }
+
+        .freeze-text {
+            color: #ff3333 !important;
+            letter-spacing: 5px;
+            font-weight: 900 !important;
+            text-shadow: 2px 0 red, -2px 0 blue !important; /* Glitch effect */
+        }
+
+        /* End Screen Text */
+        .end-text {
+            font-size: 1.1rem;
+            color: #9ca3af;
+            margin-bottom: 10px;
+            opacity: 0;
+            transition: opacity 2s;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- OPENING SCENE -->
+    <div id="opening-screen">
+        <div class="opening-text" id="intro-text"></div>
+        <button class="play-btn" id="play-btn" onclick="startCinematic()">▶ PLAY SCENE</button>
+    </div>
+
+    <!-- MAIN CINEMATIC VIEW -->
+    <div id="cinema-container">
+        <!-- Rain Background -->
+        <div id="rain-container"></div>
+        
+        <!-- Characters -->
+        <div id="hero" class="character">
+            <div class="head"></div>
+            <div class="body"></div>
+        </div>
+        
+        <div id="nimoo" class="character">
+            <div class="head"></div>
+            <div class="body"></div>
+        </div>
+
+        <!-- Flashback Text overlay -->
+        <div id="center-flash"></div>
+    </div>
+
+    <!-- Subtitles -->
+    <div id="subtitle-container">
+        <div id="subtitle"></div>
+    </div>
+
+    <!-- END SCENE -->
+    <div id="end-screen" style="display: none; opacity: 0;">
+        <p class="end-text" id="end-1">CUT.</p>
+        <p class="end-text" id="end-2">Some scenes can be replayed.</p>
+        <p class="end-text" id="end-3">Some can't.</p>
+        <p class="end-text" id="end-4" style="color: #fff; margin-bottom: 40px;">But mistakes can be learned from.</p>
+        <button class="play-btn" id="replay-btn" onclick="location.reload()">REPLAY THE SCENE</button>
+    </div>
+
+    <script>
+        // Utility for timing
+        const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+        // Subtitle Engine
+        async function speak(text, duration) {
+            const sub = document.getElementById('subtitle');
+            sub.style.opacity = 0;
+            await sleep(400); // fade out pause
+            sub.innerHTML = text;
+            sub.style.opacity = 1;
+            await sleep(duration); // hold text
+            sub.style.opacity = 0;
+            await sleep(400); // breather before next line
+        }
+
+        // Center Flash Text Engine (For memory sequence)
+        async function flashText(text, duration, isFreeze = false) {
+            const center = document.getElementById('center-flash');
+            center.innerHTML = text;
+            if(isFreeze) center.className = 'freeze-text';
+            else center.className = '';
+            
+            center.style.opacity = 1;
+            await sleep(duration);
+            center.style.opacity = 0;
+            await sleep(100);
+        }
+
+        // Generate Rain
+        function createRain() {
+            const container = document.getElementById('rain-container');
+            for(let i=0; i<80; i++) {
+                let drop = document.createElement('div');
+                drop.className = 'drop';
+                drop.style.left = Math.random() * 100 + 'vw';
+                drop.style.animationDuration = (Math.random() * 0.5 + 0.5) + 's';
+                drop.style.animationDelay = Math.random() * 2 + 's';
+                container.appendChild(drop);
+            }
+        }
+
+        // --- SEQUENCE CONTROL ---
+
+        window.onload = async () => {
+            createRain();
+            await sleep(1000);
+            
+            const intro = document.getElementById('intro-text');
+            intro.innerHTML = "NIMOO...<br><br>Agar mujhe us din ek baar phir se woh moment mil jata...<br>toh main kuch different karta.";
+            intro.classList.add('visible');
+            
+            await sleep(4000);
+            const btn = document.getElementById('play-btn');
+            btn.style.opacity = 1;
+        };
+
+        async function startCinematic() {
+            // Hide Opening
+            const opening = document.getElementById('opening-screen');
+            opening.style.opacity = 0;
+            await sleep(2000);
+            opening.style.display = 'none';
+
+            // Show Cinema
+            const cinema = document.getElementById('cinema-container');
+            cinema.style.opacity = 1;
+            
+            // Characters initial setup
+            const hero = document.getElementById('hero');
+            const nimoo = document.getElementById('nimoo');
+            
+            await sleep(1000);
+            nimoo.style.opacity = 1; // She fades into the street lamp light
+            
+            // SCENE 1: HERO ENTERS
+            await sleep(1500);
+            hero.style.left = '25%'; // Walks in from left
+            await sleep(3500); // Wait for walk animation to finish
+
+            // SCENE 2: FACE TO FACE
+            await speak("Nimoo...", 2500);
+            await speak("Mujhe pata hai tum mujhse naraz ho.", 3500);
+            await speak("Aur iss baar mere paas koi excuse nahi hai.", 3500);
+            
+            // Hero looks down (simulated by slight rotation)
+            hero.style.transform = "rotate(2deg) translateY(5px)";
+            await sleep(1000);
+            
+            await speak("Main gussa tha...", 3000);
+            await speak("Lekin gussa hona meri wajah nahi thi ke main tumse us tarah baat karta.", 4500);
+
+            // SCENE 3: THE MOMENT (FLASHBACK)
+            hero.style.transform = "none";
+            cinema.classList.add('blur-effect');
+            
+            await sleep(1000);
+            await flashText("Messages sent...", 600);
+            await flashText("Call missed...", 600);
+            await flashText("Phone silent...", 600);
+            await flashText("He leaves for prayer...", 700);
+            await flashText("Returns...", 600);
+            await flashText("Sees her...", 600);
+            await flashText("Anger...", 700);
+            await flashText("Raises his voice...", 1000);
+            
+            // FREEZE FRAME
+            document.body.style.backgroundColor = "#220000"; // Slight red tint outside
+            await flashText("FREEZE FRAME", 2500, true);
+            document.body.style.backgroundColor = "#000";
+
+            // Voiceover during freeze
+            await speak("<span style='font-style:italic;'>Yahan...</span>", 2500);
+            await speak("<span style='font-style:italic;'>Yahan mujhe ruk jana chahiye tha.</span>", 3500);
+            await speak("<span style='font-style:italic;'>Mujhe tumhein side par bula kar poochna chahiye tha.</span>", 4000);
+            await speak("<span style='font-style:italic;'>Mujhe tumhari baat sunni chahiye thi.</span>", 3500);
+            await speak("<span style='font-style:italic;'>Lekin maine tumhein sab ke saamne daant diya.</span>", 4000);
+            await speak("<span style='font-style:italic;'>Aur Nimoo... mujhe iska sabse zyada afsos hai.</span>", 4500);
+
+            // SCENE 4: ZOOM IN / CLOSER
+            cinema.classList.remove('blur-effect');
+            cinema.style.transform = "scale(1.2) translateY(5%)"; // Camera Zooms
+            await sleep(2000);
+            
+            hero.style.left = '35%'; // Hero takes a step closer
+            await sleep(2000);
+
+            await speak("Tum jab main gussa hota hoon na...", 3500);
+            await speak("tum chup ho jati ho.", 3000);
+            await speak("Aur shayad us waqt mujhe tumhari khamoshi samajh nahi aati...", 4500);
+            await speak("Lekin ab samajh aa rahi hai.", 3500);
+            await speak("Meri awaaz se tumhein hurt nahi hona chahiye tha.", 4500);
+
+            // SCENE 5: THE PERSONAL PART
+            await speak("Tumhari smile mujhe bohat pasand hai.", 3500);
+            await speak("Aur tumhari woh nasheeli si aankhein...", 4000);
+            await speak("jinhein dekh kar mera sara gussa aksar khatam ho jata hai...", 4500);
+            await speak("Us din main tumhari aankhon mein dekhne ke bajaye apne gusse ko dekh raha tha.", 5000);
+            await speak("I am really sorry, Nimoo.", 4000);
+
+            // SCENE 6: NO FORGIVENESS PRESSURE
+            await speak("Main tumse yeh expect nahi karta ke tum abhi mujhe maaf kar do.", 4500);
+            await speak("Tum hurt ho... aur tumhein hurt hone ka haq hai.", 4500);
+            await speak("Bas itna chahta hoon ke tum meri apology ko sun lo.", 4500);
+            
+            // Hero steps back
+            hero.style.left = '25%'; 
+            cinema.style.transform = "scale(1) translateY(0)"; // Camera Zooms Out
+            await sleep(2000);
+
+            await speak("Baaki faisla tumhara hai.", 4000);
+
+            // SCENE 7: CUT (HERO WALKS AWAY)
+            hero.style.left = '-30%'; // Walks out of frame
+            await sleep(3000);
+            
+            cinema.style.opacity = 0; // Fade to black
+            await sleep(2000);
+            cinema.style.display = 'none';
+            
+            // Show End Screen
+            const endScreen = document.getElementById('end-screen');
+            endScreen.style.display = 'flex';
+            await sleep(100);
+            endScreen.style.opacity = 1;
+
+            await sleep(1000);
+            document.getElementById('end-1').style.opacity = 1;
+            await sleep(1500);
+            document.getElementById('end-2').style.opacity = 1;
+            await sleep(1500);
+            document.getElementById('end-3').style.opacity = 1;
+            await sleep(2000);
+            document.getElementById('end-4').style.opacity = 1;
+            
+            await sleep(2500);
+            document.getElementById('replay-btn').style.opacity = 1;
+        }
+    </script>
+</body>
+</html>

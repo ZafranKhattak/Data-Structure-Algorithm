@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reasons To Forgive Me 🫶</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            background-image: radial-gradient(#ffd1dc 1px, transparent 1px);
+            background-size: 30px 30px; /* Cute polka dot background */
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            color: #ff4757;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .header p {
+            color: #747d8c;
+            font-size: 1.1rem;
+            margin-top: 5px;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .card {
+            background: white;
+            padding: 35px 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(255, 71, 87, 0.15);
+        }
+
+        .card-number {
+            font-size: 0.9rem;
+            color: #a4b0be;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .card-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2f3542;
+            line-height: 1.5;
+        }
+
+        /* Styling for the final, most important reason card */
+        .special-card {
+            grid-column: 1 / -1; /* Makes it take full width on bottom */
+            background: linear-gradient(135deg, #ffeaa7 0%, #ffc048 100%);
+            border: 2px dashed #ffa502;
+            padding: 45px 30px;
+        }
+
+        .special-card .card-number {
+            color: #d35400;
+        }
+
+        .special-card .card-text {
+            font-size: 1.5rem;
+            color: #c23616;
+            margin-bottom: 20px;
+        }
+
+        .reveal-btn {
+            background-color: #ff4757;
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4);
+            font-family: inherit;
+        }
+
+        .reveal-btn:hover {
+            background-color: #ff6b81;
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 71, 87, 0.6);
+        }
+
+        #final-message {
+            display: none; /* Hidden by default */
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #d63031;
+            margin-top: 10px;
+            animation: bounceIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); opacity: 1; }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Responsiveness for mobile screens */
+        @media (max-width: 600px) {
+            .header h1 { font-size: 2rem; }
+            .special-card { grid-column: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Reasons Why You Should Forgive Me 🫶</h1>
+        <p>Swipe/scroll down to see why...</p>
+    </div>
+
+    <div class="cards-container">
+        <div class="card">
+            <span class="card-number">Reason #01</span>
+            <div class="card-text">Because you're important to me ❤️</div>
+        </div>
+
+        <div class="card">
+            <span class="card-number">Reason #02</span>
+            <div class="card-text">Because I hate seeing you angry 😭</div>
+        </div>
+
+        <div class="card">
+            <span class="card-number">Reason #03</span>
+            <div class="card-text">Because meri life mein tumhari jagah replace nahi ho sakti.</div>
+        </div>
+
+        <div class="card special-card">
+            <span class="card-number">Reason #04</span>
+            <div class="card-text">Aur sabse important reason...</div>
+            
+            <button id="reveal-button" class="reveal-btn" onclick="revealMagic()">
+                Click to reveal 🥺
+            </button>
+            
+            <div id="final-message">
+                Because I genuinely care about you. 🥺❤️
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function revealMagic() {
+            // Hide the button
+            document.getElementById('reveal-button').style.display = 'none';
+            // Show the final message
+            document.getElementById('final-message').style.display = 'block';
+            
+            // Optional: Scroll down slightly so the message is perfectly centered
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+</body>
+</html>

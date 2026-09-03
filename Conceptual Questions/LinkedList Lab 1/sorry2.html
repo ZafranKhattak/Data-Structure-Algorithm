@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIMOO.exe</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;1,400&display=swap');
+
+        body {
+            background-color: #050505;
+            color: #d1d5db;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Terminal Style (Phases 1 & 2) */
+        .terminal {
+            font-family: 'Courier Prime', monospace;
+            width: 90%;
+            max-width: 700px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .sys-text { color: #8892b0; }
+        .green { color: #10b981; }
+        .red { color: #ef4444; font-weight: bold; }
+        .white { color: #f3f4f6; }
+        .user-input { color: #60a5fa; }
+        
+        .line { opacity: 0; transition: opacity 0.3s ease; margin-bottom: 10px; }
+        .visible { opacity: 1; }
+
+        .console-box {
+            border-left: 2px solid #374151;
+            padding-left: 15px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* Poetic Style (Phases 3, 4 & 5) */
+        .poetic {
+            font-family: 'Playfair Display', serif;
+            width: 90%;
+            max-width: 600px;
+            font-size: 1.3rem;
+            line-height: 1.8;
+            text-align: left;
+            display: none;
+            opacity: 0;
+            transition: opacity 2s ease;
+        }
+
+        .typewriter-text {
+            min-height: 20px;
+            margin-bottom: 25px;
+            color: #e5e7eb;
+        }
+
+        .centered {
+            text-align: center;
+        }
+
+        /* Buttons */
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 40px;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .btn {
+            background: transparent;
+            color: #9ca3af;
+            border: 1px solid #4b5563;
+            padding: 15px 20px;
+            font-family: 'Courier Prime', monospace;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            color: #fff;
+            border-color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Final Screen */
+        .final-screen {
+            display: none;
+            opacity: 0;
+            transition: opacity 2s ease;
+            text-align: center;
+            font-family: 'Courier Prime', monospace;
+        }
+
+        .final-screen p {
+            margin-bottom: 20px;
+            color: #d1d5db;
+        }
+
+        .signature {
+            margin-top: 40px;
+            color: #ef4444;
+            font-style: italic;
+        }
+
+        #cursor {
+            display: inline-block;
+            width: 8px;
+            height: 1.2rem;
+            background-color: #d1d5db;
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+    </style>
+</head>
+<body>
+
+    <div class="terminal" id="terminal-screen">
+        <div id="boot-sequence"></div>
+        <div class="console-box" id="console-sequence" style="display: none;"></div>
+    </div>
+
+    <div class="poetic" id="poetic-screen">
+        <div id="poem-content"></div>
+        <span id="cursor"></span>
+
+        <div class="btn-container centered" id="decision-buttons" style="display: none;">
+            <p style="font-family: 'Courier Prime'; font-size: 0.9rem; color: #8892b0;">ERROR FIXED?</p>
+            <button class="btn" onclick="handleDecision('learning')">[ NO — STILL LEARNING ]</button>
+            <button class="btn" onclick="handleDecision('understand')">[ YES — I UNDERSTAND ]</button>
+        </div>
+    </div>
+
+    <div class="final-screen" id="final-screen">
+        <h3 style="color: #60a5fa; margin-bottom: 40px;">NIMOO.exe</h3>
+        <p>I can't undo that moment.</p>
+        <p>I can't delete what happened.</p>
+        <p>But I can make sure<br>I learn from it.</p>
+        <p class="signature">— Your idiot developer ❤️</p>
+    </div>
+
+    <script>
+        // Utility for timing
+        const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+        async function startExperience() {
+            const bootDiv = document.getElementById('boot-sequence');
+            const consoleDiv = document.getElementById('console-sequence');
+            
+            // --- PHASE 1: BOOT SEQUENCE ---
+            const bootLines = [
+                "> Initializing NIMOO.exe...",
+                "<br>",
+                "Name: <span class='white'>Nimoo ❤️</span>",
+                "Status: <span class='red'>OFFLINE</span>",
+                "Reason: Someone messed up badly.",
+                "<br>",
+                "<span class='sys-text'>Scanning memories...</span>",
+                "<span class='green'>✓ Her smile detected</span>",
+                "<span class='green'>✓ Her eyes detected</span>",
+                "<span class='green'>✓ Her silence detected</span>",
+                "<span class='green'>✓ His regret detected</span>",
+                "<br>",
+                "<span class='red'>⚠️ One critical bug found:</span>",
+                "He gets angry.",
+                "She goes quiet.",
+                "He realizes his mistake too late."
+            ];
+
+            for (let line of bootLines) {
+                let el = document.createElement('div');
+                el.className = 'line';
+                el.innerHTML = line;
+                bootDiv.appendChild(el);
+                // Trigger reflow
+                void el.offsetWidth;
+                el.classList.add('visible');
+                await sleep(line.includes('<br>') ? 400 : 800);
+            }
+
+            await sleep(1500);
+
+            // --- PHASE 2: DEBUGGING CONSOLE ---
+            consoleDiv.style.display = 'block';
+            const consoleLines = [
+                { type: 'user', text: 'USER INPUT:<br><span class="user-input">"I was angry."</span>' },
+                { type: 'sys', text: 'SYSTEM RESPONSE:<br><span class="white">Anger is not an excuse.</span>' },
+                { type: 'user', text: 'USER INPUT:<br><span class="user-input">"But I saw something I didn\'t like."</span>' },
+                { type: 'sys', text: 'SYSTEM RESPONSE:<br><span class="white">Still not an excuse.</span>' },
+                { type: 'user', text: 'USER INPUT:<br><span class="user-input">"I spoke loudly in front of everyone."</span>' },
+                { type: 'sys', text: 'SYSTEM RESPONSE:<br><span class="red">❌ WRONG MOVE.</span>' },
+                { type: 'user', text: 'USER INPUT:<br><span class="user-input">"I embarrassed her."</span>' },
+                { type: 'sys', text: 'SYSTEM RESPONSE:<br><span class="red">❌ CRITICAL ERROR.</span>' }
+            ];
+
+            for (let log of consoleLines) {
+                let el = document.createElement('div');
+                el.className = 'line';
+                el.innerHTML = log.text;
+                el.style.marginBottom = '15px';
+                consoleDiv.appendChild(el);
+                void el.offsetWidth;
+                el.classList.add('visible');
+                await sleep(1200); // Wait between logs
+            }
+
+            await sleep(2500);
+
+            // Transition to Phase 3 (Poetic)
+            document.getElementById('terminal-screen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('terminal-screen').style.display = 'none';
+                startPoem();
+            }, 1000);
+        }
+
+        async function typeText(text, element) {
+            for (let i = 0; i < text.length; i++) {
+                if(text.substring(i, i+4) === "<br>") {
+                    element.innerHTML += "<br>";
+                    i += 3;
+                } else {
+                    element.innerHTML += text.charAt(i);
+                }
+                await sleep(45); // Typing speed
+            }
+        }
+
+        async function startPoem() {
+            const poeticScreen = document.getElementById('poetic-screen');
+            const poemContent = document.getElementById('poem-content');
+            poeticScreen.style.display = 'block';
+            
+            // Trigger reflow
+            void poeticScreen.offsetWidth;
+            poeticScreen.style.opacity = '1';
+
+            const stanzas = [
+                "Nimoo...",
+                "Tum jab main gussa hota hoon to chup ho jati ho.<br>Us waqt shayad mujhe lagta hai ke tum bas chup ho...<br>Lekin ab samajh aa raha hai ke meri awaaz tumhein hurt kar sakti hai.",
+                "Aur jis insaan ki aankhon mein mujhe itna sukoon nazar aata hai, usi ko meri wajah se hurt karna...<br>yeh meri mistake thi.",
+                "Tumhari smile mujhe genuinely bohat pasand hai.<br>Isliye nahi ke woh pretty hai...<br>balkay isliye ke jab tum smile karti ho na, mujhe lagta hai sab theek hai. ❤️",
+                "Aur tumhari woh nasheeli si aankhein...<br>jinhein dekh kar main aksar apna gussa bhool jata hoon...<br>usi din mera gussa mujh par itna haavi tha ke main yeh bhi bhool gaya ke saamne tum ho."
+            ];
+
+            await sleep(1000);
+
+            for (let text of stanzas) {
+                let p = document.createElement('div');
+                p.className = 'typewriter-text';
+                poemContent.appendChild(p);
+                
+                // Move cursor to current line
+                poemContent.appendChild(document.getElementById('cursor'));
+                
+                await typeText(text, p);
+                await sleep(1500); // Pause between stanzas
+            }
+
+            // Hide cursor and show buttons
+            document.getElementById('cursor').style.display = 'none';
+            const btnContainer = document.getElementById('decision-buttons');
+            btnContainer.style.display = 'flex';
+            void btnContainer.offsetWidth;
+            btnContainer.style.opacity = '1';
+        }
+
+        async function handleDecision(choice) {
+            const poeticScreen = document.getElementById('poetic-screen');
+            const finalScreen = document.getElementById('final-screen');
+            const poemContent = document.getElementById('poem-content');
+            
+            // Hide buttons immediately
+            document.getElementById('decision-buttons').style.opacity = '0';
+            
+            await sleep(500);
+            poemContent.innerHTML = ''; // Clear previous text
+            document.getElementById('decision-buttons').style.display = 'none';
+
+            let responseText = "";
+            if (choice === 'learning') {
+                responseText = "Fair enough.<br>Mujhe maaf karna tumhari majboori nahi hai.";
+            } else {
+                responseText = "Thank you for giving my apology a chance.";
+            }
+
+            let p = document.createElement('div');
+            p.className = 'typewriter-text centered';
+            p.style.color = '#fff';
+            p.style.fontStyle = 'italic';
+            poemContent.appendChild(p);
+            
+            document.getElementById('cursor').style.display = 'inline-block';
+            poemContent.appendChild(document.getElementById('cursor'));
+
+            await typeText(responseText, p);
+            document.getElementById('cursor').style.display = 'none';
+
+            await sleep(3000); // Let her read the response
+
+            // Fade out poetic screen
+            poeticScreen.style.opacity = '0';
+            await sleep(2000);
+            poeticScreen.style.display = 'none';
+
+            // Fade in Final Screen
+            finalScreen.style.display = 'block';
+            void finalScreen.offsetWidth;
+            finalScreen.style.opacity = '1';
+        }
+
+        // Start sequence shortly after page loads
+        window.onload = () => {
+            setTimeout(startExperience, 1000);
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Angry Friend</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fdf2f8; /* Soft pink background */
+            color: #4a4a4a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(236, 72, 153, 0.15);
+            max-width: 400px;
+            width: 85%;
+            text-align: center;
+            position: relative;
+        }
+
+        .story-text {
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 1.5;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            /* Fade animation setup */
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .story-text.fade-out {
+            opacity: 0;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background-color: #ec4899;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(236, 72, 153, 0.3);
+        }
+
+        .btn:hover {
+            background-color: #db2777;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(236, 72, 153, 0.4);
+        }
+
+        .btn-yes {
+            background-color: #10b981;
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-yes:hover {
+            background-color: #059669;
+            box-shadow: 0 6px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .progress-dots {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            background-color: #fce7f3;
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+
+        .dot.active {
+            background-color: #ec4899;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <div id="story-content" class="story-text">
+            Ek baar ki baat hai...
+        </div>
+        
+        <div class="btn-container" id="btn-container">
+            <button class="btn" onclick="nextPage()">Next ➡️</button>
+        </div>
+
+        <div class="progress-dots" id="dots">
+            </div>
+    </div>
+
+    <script>
+        const storyPages = [
+            "Ek baar ki baat hai...",
+            "Ek bohat achi dost thi... ❤️",
+            "Phir uska dost usse naraz kar betha... 💔",
+            "Aur ab woh pagal developer usko manane ke liye website bana raha hai... 👨‍💻😂",
+            "Meri coding ki sabse important bug tumhari narazgi hai.<br><br>Fix kar doon? 🥺❤️"
+        ];
+
+        let currentPage = 0;
+        const storyElement = document.getElementById('story-content');
+        const btnContainer = document.getElementById('btn-container');
+        const dotsContainer = document.getElementById('dots');
+
+        // Initialize progress dots
+        function initDots() {
+            for (let i = 0; i < storyPages.length; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'dot' + (i === 0 ? ' active' : '');
+                dot.id = 'dot-' + i;
+                dotsContainer.appendChild(dot);
+            }
+        }
+
+        function updateDots() {
+            document.querySelectorAll('.dot').forEach((dot, index) => {
+                dot.className = 'dot' + (index === currentPage ? ' active' : '');
+            });
+        }
+
+        function nextPage() {
+            if (currentPage < storyPages.length - 1) {
+                // Fade out
+                storyElement.classList.add('fade-out');
+                
+                setTimeout(() => {
+                    currentPage++;
+                    storyElement.innerHTML = storyPages[currentPage];
+                    updateDots();
+                    
+                    // Change button on the last page
+                    if (currentPage === storyPages.length - 1) {
+                        btnContainer.innerHTML = `
+                            <button class="btn btn-yes" onclick="fixBug()">Yes, Fix it! 🛠️❤️</button>
+                        `;
+                    }
+                    
+                    // Fade back in
+                    storyElement.classList.remove('fade-out');
+                }, 500); // Wait for the 0.5s CSS fade transition
+            }
+        }
+
+        function fixBug() {
+            storyElement.classList.add('fade-out');
+            setTimeout(() => {
+                storyElement.innerHTML = "Bug Fixed! 🐛🔨<br><br>Friendship Compiled Successfully! ✅❤️";
+                btnContainer.innerHTML = ``; // Remove buttons
+                dotsContainer.style.display = 'none'; // Hide dots
+                storyElement.classList.remove('fade-out');
+                triggerConfetti();
+            }, 500);
+        }
+
+        // A simple confetti effect using emojis
+        function triggerConfetti() {
+            setInterval(() => {
+                const confetti = document.createElement('div');
+                confetti.innerHTML = Math.random() > 0.5 ? '✨' : '💖';
+                confetti.style.position = 'absolute';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = '-5vh';
+                confetti.style.fontSize = (Math.random() * 15 + 15) + 'px';
+                confetti.style.transition = 'transform 3s linear, opacity 3s';
+                
+                document.body.appendChild(confetti);
+                
+                // Trigger animation next frame
+                setTimeout(() => {
+                    confetti.style.transform = `translateY(110vh) rotate(${Math.random() * 360}deg)`;
+                    confetti.style.opacity = '0';
+                }, 10);
+                
+                // Cleanup
+                setTimeout(() => {
+                    confetti.remove();
+                }, 3000);
+            }, 100);
+        }
+
+        initDots();
+    </script>
+</body>
+</html>
