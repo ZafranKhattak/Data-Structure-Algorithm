@@ -249,6 +249,8 @@ public class Main {
         // SEARCH PRODUCT
         product.searchProduct(2);
 
+        // DELETE 
+        product.removeProduct(1);
         product.displayCart();
 
     }
