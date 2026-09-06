@@ -172,7 +172,7 @@ class LinkedProduct {
             current = current.next;
         }
 
-        System.out.print(costPrice);
+        System.out.println("Total Price " + costPrice);
     }
 
     // DISPLAY ALL PRODUCT
@@ -242,15 +242,20 @@ public class Main {
 
         // ADD AT FRONT PRODUCT
         product.addProductFront(new Product(1 , "Oil" , 340.5 , 2));
-
+        // product.displayCart();
         // ADD AT BACK
         product.addProductBack(new Product(2 , "Tomota" , 120 , 2));
-        
+        // product.displayCart();
         // SEARCH PRODUCT
         product.searchProduct(2);
-
+        // product.displayCart();
         // DELETE 
-        product.removeProduct(1);
+        // product.removeProduct(1);
+        // product.displayCart();
+
+        // TOTAL PRICE
+
+        product.calculateTotal();
         product.displayCart();
 
     }
