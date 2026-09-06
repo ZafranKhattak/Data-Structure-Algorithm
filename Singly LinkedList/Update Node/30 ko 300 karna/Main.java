@@ -31,12 +31,15 @@ class Main
 
        while(temp !=null)
        {
-         if(temp.data == 30)
-         {
-            temp.data = 300;
-         }
-         System.out.print(temp.data + " ");
-         temp = temp.next;
+            if(temp.data == 30)
+            {
+                temp.data = 300;
+            }
+            System.out.print(temp.data + " ");
+
+            temp = temp.next;
+       }
+
        }
     }
-}
+

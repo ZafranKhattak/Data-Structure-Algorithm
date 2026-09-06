@@ -26,17 +26,28 @@ class Main
         n2.next = n3;
         n3.next = n4;
 
-        Node head = n0;
-        Node temp = head;
+        // DELETE 30
 
-       while(temp !=null)
-       {
-         if(temp.data == 30)
-         {
-            temp.data = 300;
-         }
-         System.out.print(temp.data + " ");
-         temp = temp.next;
-       }
+        Node head = n0;
+        Node current = head;
+
+        while(current.next.next != null)
+        {
+            if(current.next.data == 30)
+            {
+                current.next = current.next.next;
+                break;
+            }
+            current = current.next;
+        }
+        
+        current = head;
+
+        while(current !=null)
+        {
+            System.out.print(current.data + " ");
+
+            current = current.next;
+        }
     }
 }

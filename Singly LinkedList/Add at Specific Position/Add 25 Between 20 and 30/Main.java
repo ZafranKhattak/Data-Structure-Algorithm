@@ -29,14 +29,25 @@ class Main
         Node head = n0;
         Node temp = head;
 
+        Node newNode = new Node(25);
        while(temp !=null)
        {
-         if(temp.data == 30)
+         if(temp.data == 20)
          {
-            temp.data = 300;
+           newNode.next = temp.next;
+           temp.next = newNode;
+           break;
          }
-         System.out.print(temp.data + " ");
          temp = temp.next;
+       }
+
+       temp = head;
+
+       while(temp !=null)
+       {
+        System.out.print(temp.data + " ");
+        temp = temp.next;
        }
     }
 }
+
