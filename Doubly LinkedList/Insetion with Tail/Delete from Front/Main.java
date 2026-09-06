@@ -40,68 +40,60 @@ class DoublyLinkedList
             tail = addAtBack;
         }
     }
+    // DELETE FROM FRONT
 
-    // ADD AT Specific Postion
-    void addSpecificPostion(int target ,int data )
-    {
-        Node addSpecificPostion = new Node(data);
-        if (head == null)
-        {
-            head = addSpecificPostion;
-            tail = addSpecificPostion;
-            return ;
-        }
-       
-        Node current = head;
-
-        while (current !=null) {
-
-            if(current.data == target)
-            {
-                addSpecificPostion.next = current.next;
-                current.next.prev = addSpecificPostion;
-
-                current.next = addSpecificPostion;
-                addSpecificPostion.prev = current;
-                break;
-            }
-
-            current = current.next;
-        }
-    }
-
-    // DISPLAY DOUBLY LINKEDLIST
-    void display()
+    void deleteFront()
     {
         if(head == null)
         {
             System.out.print("List is Empty");
             return ;
         }
+        else if(head == tail)
+        {
+            head = null;
+            tail = null;
+        }
+        else {
+        head = head.next;
+        head.prev = null;
+        }
 
+    }
+
+    // DISPLAY METHOD
+    void  display()
+    {
+        if(head == null)
+        {
+            System.out.print("List is Empty");
+            return ;
+        }
+        
         Node current = head;
-        while (current !=null) {
-            
+
+        while(current != null)
+        {
             System.out.print(current.data + " ");
+
             current = current.next;
         }
     }
 }
-public class Main {
+
+public class Main 
+{
     public static void main(String[] args) {
         
         DoublyLinkedList doubly = new DoublyLinkedList();
-
+        
         doubly.addBack(10);
         doubly.addBack(20);
         doubly.addBack(30);
         doubly.addBack(40);
         doubly.addBack(50);
         doubly.addBack(60);
-
-        doubly.addSpecificPostion(20,25);
+        doubly.deleteFront();
         doubly.display();
-    }    
+    }
 }
-
-

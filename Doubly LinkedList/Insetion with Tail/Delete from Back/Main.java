@@ -7,7 +7,7 @@ class Node
     public Node(int data)
     {
         this.prev = null;
-        this.data = data;
+        this.data = data ;
         this.next = null;
     }
 }
@@ -16,14 +16,13 @@ class DoublyLinkedList
 {
     Node head;
     Node tail;
-
     public DoublyLinkedList()
     {
         this.head = null;
         this.tail = null;
     }
 
-     // ADD AT BACK
+    // ADD AT BACK
     void addBack(int data)
     {
         Node addAtBack = new Node(data);
@@ -41,67 +40,57 @@ class DoublyLinkedList
         }
     }
 
-    // ADD AT Specific Postion
-    void addSpecificPostion(int target ,int data )
+    // DELETE FROM BACK 
+
+    void deleteBack()
     {
-        Node addSpecificPostion = new Node(data);
-        if (head == null)
+        if(head == null)
         {
-            head = addSpecificPostion;
-            tail = addSpecificPostion;
-            return ;
+            System.out.print("List is Empty");
         }
-       
-        Node current = head;
-
-        while (current !=null) {
-
-            if(current.data == target)
-            {
-                addSpecificPostion.next = current.next;
-                current.next.prev = addSpecificPostion;
-
-                current.next = addSpecificPostion;
-                addSpecificPostion.prev = current;
-                break;
-            }
-
-            current = current.next;
+        else if(head == tail)  // if there is one Node available
+        {
+            head = null;
+            tail = null;
+        }
+        else 
+        {
+            tail = tail.prev;
+            tail.next = null;
         }
     }
-
-    // DISPLAY DOUBLY LINKEDLIST
-    void display()
+     // DISPLAY METHOD
+    void  display()
     {
         if(head == null)
         {
             System.out.print("List is Empty");
             return ;
         }
-
+        
         Node current = head;
-        while (current !=null) {
-            
+
+        while(current != null)
+        {
             System.out.print(current.data + " ");
+
             current = current.next;
         }
     }
 }
+
 public class Main {
     public static void main(String[] args) {
         
         DoublyLinkedList doubly = new DoublyLinkedList();
-
+        
         doubly.addBack(10);
         doubly.addBack(20);
         doubly.addBack(30);
         doubly.addBack(40);
         doubly.addBack(50);
         doubly.addBack(60);
-
-        doubly.addSpecificPostion(20,25);
+        doubly.deleteBack();
         doubly.display();
-    }    
+    }
 }
-
-
