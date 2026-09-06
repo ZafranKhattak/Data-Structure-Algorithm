@@ -102,31 +102,27 @@ class LinkedProduct {
                     tail = current;
                 }
                 current.next = current.next.next;
-                return ;
+                return;
             }
 
             current = current.next;
         }
-         System.out.println("Product not found");
+        System.out.println("Product not found");
     }
 
     // SEARCH PRODUCT
-    void searchProduct(int productId)
-    {
-        if(head == null)
-        {
+    void searchProduct(int productId) {
+        if (head == null) {
             System.out.println("List is Empty");
-            return ;
+            return;
         }
 
         boolean found = false;
 
         Node current = head;
 
-        while(current !=null)
-        {
-            if(current.product.productId == productId)
-            {
+        while (current != null) {
+            if (current.product.productId == productId) {
                 found = true;
                 break;
             }
@@ -134,19 +130,126 @@ class LinkedProduct {
             current = current.next;
         }
 
-        if(!found)
-        {
+        if (!found) {
             System.out.println("Product Not Found");
-        }
-        else 
-        {
+        } else {
             System.out.println("Product Found");
+        }
+    }
+
+    // UPDATE QUANTITY
+    void updateQuantity(int productId, int quantity) {
+        if (head == null) {
+            System.out.println("List is Empty");
+            return;
+        }
+
+        Node current = head;
+
+        while (current != null) {
+            if (current.product.productId == productId) {
+                current.product.quantity = quantity;
+                break;
+            }
+
+            current = current.next;
+        }
+    }
+
+    // CALCULATE TOTAL
+    void calculateTotal() {
+        if (head == null) {
+            System.out.println("List is Empty");
+            return;
+        }
+
+        double costPrice = 0;
+        Node current = head;
+
+        while (current != null) {
+
+            costPrice += current.product.price * current.product.quantity;
+            current = current.next;
+        }
+
+        System.out.print(costPrice);
+    }
+
+    // DISPLAY ALL PRODUCT
+    void displayCart() {
+        if (head == null) {
+            System.out.println("List is Empty");
+            return;
+        }
+
+        Node current = head;
+
+        while (current != null) {
+            System.out.println("Product ID: " + current.product.productId);
+            System.out.println("Product Name: " + current.product.productName);
+            System.out.println("Price: " + current.product.price);
+            System.out.println("Quantity: " + current.product.quantity);
+
+            current = current.next;
+        }
+    }
+
+    // INCREASE QUANTITY
+    void increaseQuantity(int productId, int amount) {
+        if (head == null) {
+            System.out.println("List is Empty");
+            return;
+        }
+
+        Node current = head;
+
+        while (current != null) {
+
+            if (current.product.productId == productId) {
+                current.product.quantity = current.product.quantity + amount;
+                break;
+            }
+
+            current = current.next;
+        }
+    }
+
+    // DECREAE QUANTITY
+    void decreaseQuantity(int productId, int amount) {
+        if (head == null) {
+            System.out.println("List is Empty");
+            return;
+        }
+
+        Node current = head;
+
+        while (current != null) {
+
+            if (current.product.productId == productId) {
+                current.product.quantity = current.product.quantity - amount;
+                break;
+            }
+
+            current = current.next;
         }
     }
 }
 
 public class Main {
     public static void main(String[] args) {
+
+        LinkedProduct product = new LinkedProduct();
+
+        // ADD AT FRONT PRODUCT
+        product.addProductFront(new Product(1 , "Oil" , 340.5 , 2));
+
+        // ADD AT BACK
+        product.addProductBack(new Product(2 , "Tomota" , 120 , 2));
+        
+        // SEARCH PRODUCT
+        product.searchProduct(2);
+
+        product.displayCart();
 
     }
 }
