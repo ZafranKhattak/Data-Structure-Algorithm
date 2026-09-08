@@ -174,6 +174,28 @@ class CircularLinkedList {
         }
     }
 
+    // ADD BEFORE TARGET METHOD
+    void addBefore(int targetData,int data)
+    {
+        Node addBefore = new Node(data);
+
+        if(head.next == head)
+        {
+            addBefore.next = head;
+            head = addBefore; 
+        }
+        Node current = head;
+        while(current.next != head)
+        {
+            if(current.next.data == targetData)
+            {
+                addBefore.next = current.next;
+                current.next = addBefore;
+                return ;
+            }
+            current = current.next;
+        }
+    }
     // DISPLAY METHOD
     void display() {
         if (head == null) {
