@@ -39,7 +39,19 @@ class SimpleQueue {
         count--;
         System.out.println(value + " is Removed");
     }
-    
+
+    // PEEK METHO
+    public int peek()
+    {
+        if(count == 0)
+        {
+            System.out.println("Queue is Emtpy");
+            return -1;
+        }
+
+        int value = arr[front];
+        return  value;
+    }
 }
 
 class Main {
@@ -52,5 +64,6 @@ class Main {
         simple.enQueue(4);
         simple.enQueue(5);
         simple.deQueue();
+        System.out.println("Front value is: " +simple.peek());
     }
 }
