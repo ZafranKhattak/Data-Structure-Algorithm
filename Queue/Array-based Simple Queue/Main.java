@@ -15,7 +15,7 @@ class SimpleQueue {
 
     // ENQUEUE METHOD
     void enQueue(int data) {
-        if (rear == size - 1) {
+        if (rear == count) {
             System.out.println("Queue is Full");
             return;
         }
