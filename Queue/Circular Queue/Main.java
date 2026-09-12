@@ -15,7 +15,7 @@ class CircularQueue {
 
     // ENQUEUE
     void enqueue(int data) {
-        if (back == count) {
+        if (size == count) {
             System.out.println("Queue is Full");
             return;
         }
