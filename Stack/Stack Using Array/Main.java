@@ -1,23 +1,19 @@
 import java.util.Scanner;
 
-class Stack
-{
-    int [] array;
+class Stack {
+    int[] array;
     int size;
     int count;
 
-    public Stack(int size)
-    {
+    public Stack(int size) {
         this.size = size;
         array = new int[size];
         this.count = 0;
     }
 
     // ================ PUSH METHOD ====================
-    void push(int data)
-    {
-        if(isFull())
-        {
+    void push(int data) {
+        if (isFull()) {
             System.out.println("Stack is Full");
             return;
         }
@@ -28,60 +24,64 @@ class Stack
     }
 
     // ================= POP METHOD =====================
-    int pop()
-    {
-        if(isEmpty())
-        {
+    int pop() {
+        if (isEmpty()) {
             System.out.println("Stack is Emtpy");
             return 0;
         }
 
-        int value = array[count-1];
+        int value = array[count - 1];
         count--;
-        return  value;
+        return value;
     }
 
     // ================= ISEMPTY METHOD ==================
-    boolean isEmpty() 
-    {
-       return  count == 0;
+    boolean isEmpty() {
+        return count == 0;
     }
 
     // ================== ISFULL METHOD ===================
-    boolean isFull()
-    {
-        return  count == size;
+    boolean isFull() {
+        return count == size;
     }
 
     // ================== PEEK METHOD =====================
-    int peek()
-    {
-        return array[count-1];
+    int peek() {
+        return array[count - 1];
     }
 
     // ================== SEARCH VALUE ====================
 
-    boolean search(int value)
-    {
-        Stack stk  = new Stack(5);
+    boolean search(int value) {
+        Stack stk = new Stack(5);
         while (!isEmpty()) {
-            
+
             int found = pop();
 
-            if(found== value)
-                return  true;
-
-            stk.push(found);
+            if (found == value)
+                return true;
         }
 
-        return  false;
+        return false;
+    }
+
+    // ====================== DISPLAY METHOD =====================
+    void display() {
+        if (isEmpty()) {
+            System.out.println("Stack is Emtpy");
+            return ;
+        }
+
+        for (int i=count-1; i>=0; i--)
+        {
+            System.out.println(array[i]);
+        }
     }
 }
 
-class Main 
-{
+class Main {
     public static void main(String[] args) {
-        
+
         Stack stk = new Stack(5);
         stk.push(10);
         stk.push(20);
@@ -89,10 +89,11 @@ class Main
         stk.push(40);
         stk.push(50);
 
+        stk.display();
         Scanner inp = new Scanner(System.in);
 
         System.out.print("Enter  Value to search: ");
-         int value = inp.nextInt();
+        int value = inp.nextInt();
         System.out.println(stk.search(value));
         inp.close();
     }
