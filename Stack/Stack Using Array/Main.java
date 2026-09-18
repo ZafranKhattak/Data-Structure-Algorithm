@@ -63,22 +63,17 @@ class Stack
 
     boolean search(int value)
     {
-        if(isEmpty())
-        {
-            System.out.println("Stack is Empty");
-            return  true;
-        }
+        Stack stk  = new Stack(5);
+        while (!isEmpty()) {
+            
+            int found = pop();
 
-        for (int i=0; i<array.length; i++)
-        {
-            if(array[i] == value)
-            {
-                System.out.println("Value has been found");
+            if(found== value)
                 return  true;
-            }
+
+            stk.push(found);
         }
 
-        System.out.println("Value not found");
         return  false;
     }
 }
@@ -98,7 +93,7 @@ class Main
 
         System.out.print("Enter  Value to search: ");
          int value = inp.nextInt();
-        stk.search(value);
+        System.out.println(stk.search(value));
         inp.close();
     }
 }
