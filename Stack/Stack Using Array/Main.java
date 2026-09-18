@@ -20,7 +20,6 @@ class Stack {
 
         array[count] = data;
         count++;
-        System.out.println("Value " + data + " has been added");
     }
 
     // ================= POP METHOD =====================
@@ -53,15 +52,16 @@ class Stack {
     // ================== SEARCH VALUE ====================
 
     boolean search(int value) {
-        Stack stk = new Stack(5);
+        Stack temp = new Stack(5);
+
         while (!isEmpty()) {
-
-            int found = pop();
-
-            if (found == value)
-                return true;
+        int x = pop();
+        temp.push(x);
+        if (x == value) {
+        return true;
         }
-
+        }
+       
         return false;
     }
 
@@ -69,11 +69,10 @@ class Stack {
     void display() {
         if (isEmpty()) {
             System.out.println("Stack is Emtpy");
-            return ;
+            return;
         }
 
-        for (int i=count-1; i>=0; i--)
-        {
+        for (int i = count - 1; i >= 0; i--) {
             System.out.println(array[i]);
         }
     }
@@ -88,8 +87,7 @@ class Main {
         stk.push(30);
         stk.push(40);
         stk.push(50);
-
-        stk.display();
+         stk.display();
         Scanner inp = new Scanner(System.in);
 
         System.out.print("Enter  Value to search: ");
