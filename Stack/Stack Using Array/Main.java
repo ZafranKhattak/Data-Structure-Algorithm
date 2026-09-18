@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 class Stack
 {
     int [] array;
@@ -57,6 +59,28 @@ class Stack
         return array[count-1];
     }
 
+    // ================== SEARCH VALUE ====================
+
+    boolean search(int value)
+    {
+        if(isEmpty())
+        {
+            System.out.println("Stack is Empty");
+            return  true;
+        }
+
+        for (int i=0; i<array.length; i++)
+        {
+            if(array[i] == value)
+            {
+                System.out.println("Value has been found");
+                return  true;
+            }
+        }
+
+        System.out.println("Value not found");
+        return  false;
+    }
 }
 
 class Main 
@@ -69,8 +93,12 @@ class Main
         stk.push(30);
         stk.push(40);
         stk.push(50);
-        System.out.println("value " + stk.pop() + " has been removed");
-        System.out.println("value " + stk.pop() + " has been removed");
-       System.out.println("Top value is " + stk.peek());
+
+        Scanner inp = new Scanner(System.in);
+
+        System.out.print("Enter  Value to search: ");
+         int value = inp.nextInt();
+        stk.search(value);
+        inp.close();
     }
 }
