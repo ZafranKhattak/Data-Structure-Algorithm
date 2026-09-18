@@ -1,55 +1,46 @@
-class Node 
-{
-    int data; 
+class Node {
+    int data;
     Node next;
 
-    public Node(int data)
-    {
+    public Node(int data) {
         this.data = data;
-        this.next = null; 
+        this.next = null;
     }
 }
 
-        // ===================== REVERSE LIST CALSS ====================
-class ReverseList
-{
+// ===================== REVERSE LIST CALSS ====================
+class ReverseList {
     Node head;
     Node tail;
 
-    public ReverseList()
-    {
+    public ReverseList() {
         this.head = null;
         this.tail = null;
     }
 
     // ======================== ADD AT FRONT ===========================//
 
-    void addFront(int data)
-    {
+    void addFront(int data) {
         Node newNode = new Node(data);
-        if(head == null)
-        {
-            head =newNode;
+        if (head == null) {
+            head = newNode;
             tail = newNode;
-            return ;
+            return;
         }
         newNode.next = head;
         head = newNode;
     }
 
     // ====================== DISLPLAY REVERSE METHOD =======================
-    void reverseMetho()
-    {
+    void reverseMetho() {
         Node current = tail;
 
-        while(current != head)
-        {
+        while (current != head) {
             System.out.println(current.data + " ");
 
             Node temp = head;
-            while(temp.next != current)
-            {
-                    temp = temp.next;
+            while (temp.next != current) {
+                temp = temp.next;
             }
 
             current = temp;
@@ -59,11 +50,10 @@ class ReverseList
     }
 }
 
-         // ===================== MAIN CLASS ============================
-class Main 
-{
+// ===================== MAIN CLASS ============================
+class Main {
     public static void main(String[] args) {
-        
+
         ReverseList list = new ReverseList();
         list.addFront(10);
         list.addFront(20);
