@@ -61,7 +61,6 @@ class Stack {
         return true;
         }
         }
-       
         return false;
     }
 
