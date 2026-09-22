@@ -99,6 +99,7 @@ class UndoRedo
 
         // New action means old redo history is removed
         redoStack = new Stack(undoStack.size);
+
     }
 
     // ===================== UNDO =====================
@@ -113,7 +114,6 @@ class UndoRedo
 
         char action = undoStack.pop();
         redoStack.push(action);
-
         System.out.println("Undo: " + action);
     }
 
@@ -133,16 +133,6 @@ class UndoRedo
         System.out.println("Redo: " + action);
     }
 
-    // ===================== DISPLAY HISTORY =====================
-
-    void displayHistory()
-    {
-        System.out.print("Undo Stack: ");
-        undoStack.display();
-
-        System.out.print("Redo Stack: ");
-        redoStack.display();
-    }
 }
 
 
@@ -165,28 +155,17 @@ public class Main
             system.performAction(str.charAt(i));
         }
 
-        System.out.println("\nInitial History:");
-        system.displayHistory();
+        // Undo
+        system.undo();
 
         // Undo
-        System.out.println("\n--- Undo ---");
         system.undo();
-        system.displayHistory();
-
-        // Undo
-        System.out.println("\n--- Undo ---");
-        system.undo();
-        system.displayHistory();
 
         // Redo
-        System.out.println("\n--- Redo ---");
         system.redo();
-        system.displayHistory();
 
         // Redo
-        System.out.println("\n--- Redo ---");
         system.redo();
-        system.displayHistory();
 
         inp.close();
     }
