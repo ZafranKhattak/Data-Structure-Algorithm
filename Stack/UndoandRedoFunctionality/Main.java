@@ -2,21 +2,26 @@ package Stack.UndoandRedoFunctionality;
 
 import java.util.Scanner;
 
-class UndoRedoStack {
+class Stack
+{
     char array[];
     int size;
     int top;
 
-    public UndoRedoStack(int size) {
+    public Stack(int size)
+    {
         this.size = size;
         array = new char[size];
-        this.top = -1;
+        top = -1;
     }
 
     // ===================== PUSH =====================
 
-    void push(char value) {
-        if (isFull()) {
+    void push(char value)
+    {
+        if(isFull())
+        {
+            System.out.println("Stack is Full");
             return;
         }
 
@@ -26,87 +31,162 @@ class UndoRedoStack {
 
     // ===================== POP =====================
 
-    char pop() {
-        if (isEmpty()) {
+    char pop()
+    {
+        if(isEmpty())
+        {
             return '0';
         }
 
-        char result = array[top];
+        char value = array[top];
         top--;
 
-        return result;
+        return value;
     }
 
     // ===================== IS EMPTY =====================
 
-    boolean isEmpty() {
+    boolean isEmpty()
+    {
         return top == -1;
     }
 
     // ===================== IS FULL =====================
 
-    boolean isFull() {
+    boolean isFull()
+    {
         return top == size - 1;
+    }
+
+    // ===================== DISPLAY =====================
+
+    void display()
+    {
+        if(isEmpty())
+        {
+            System.out.println("Empty");
+            return;
+        }
+
+        for(int i = top; i >= 0; i--)
+        {
+            System.out.print(array[i] + " ");
+        }
+
+        System.out.println();
     }
 }
 
+
+// ===================== UNDO REDO SYSTEM =====================
+
+class UndoRedo
+{
+    Stack undoStack;
+    Stack redoStack;
+
+    public UndoRedo(int size)
+    {
+        undoStack = new Stack(size);
+        redoStack = new Stack(size);
+    }
+
+    // ===================== PERFORM ACTION =====================
+
+    void performAction(char action)
+    {
+        undoStack.push(action);
+
+        // New action means old redo history is removed
+        redoStack = new Stack(undoStack.size);
+    }
+
+    // ===================== UNDO =====================
+
+    void undo()
+    {
+        if(undoStack.isEmpty())
+        {
+            System.out.println("Nothing to Undo");
+            return;
+        }
+
+        char action = undoStack.pop();
+        redoStack.push(action);
+
+        System.out.println("Undo: " + action);
+    }
+
+    // ===================== REDO =====================
+
+    void redo()
+    {
+        if(redoStack.isEmpty())
+        {
+            System.out.println("Nothing to Redo");
+            return;
+        }
+
+        char action = redoStack.pop();
+        undoStack.push(action);
+
+        System.out.println("Redo: " + action);
+    }
+
+    // ===================== DISPLAY HISTORY =====================
+
+    void displayHistory()
+    {
+        System.out.print("Undo Stack: ");
+        undoStack.display();
+
+        System.out.print("Redo Stack: ");
+        redoStack.display();
+    }
+}
+
+
 // ===================== MAIN CLASS =====================
 
-public class Main {
-    public static void main(String args[]) {
+public class Main
+{
+    public static void main(String args[])
+    {
         Scanner inp = new Scanner(System.in);
 
-        System.out.print("Enter your Words: ");
+        System.out.print("Enter your Actions: ");
         String str = inp.nextLine();
 
-        // Two Stacks
-        UndoRedoStack undoStack = new UndoRedoStack(str.length());
-        UndoRedoStack redoStack = new UndoRedoStack(str.length());
+        UndoRedo system = new UndoRedo(str.length());
 
-        // ===================== PERFORM ACTIONS =====================
-
-        for (int i = 0; i < str.length(); i++) {
-            undoStack.push(str.charAt(i));
-
-            // New action means old Redo history is cleared
-            redoStack = new UndoRedoStack(str.length());
+        // Perform all actions
+        for(int i = 0; i < str.length(); i++)
+        {
+            system.performAction(str.charAt(i));
         }
 
-        // ===================== UNDO =====================
+        System.out.println("\nInitial History:");
+        system.displayHistory();
 
-        char undoValue = undoStack.pop();
+        // Undo
+        System.out.println("\n--- Undo ---");
+        system.undo();
+        system.displayHistory();
 
-        if (undoValue != '0') {
-            redoStack.push(undoValue);
-            System.out.println("Undo: " + undoValue);
-        }
+        // Undo
+        System.out.println("\n--- Undo ---");
+        system.undo();
+        system.displayHistory();
 
-        // ===================== UNDO =====================
+        // Redo
+        System.out.println("\n--- Redo ---");
+        system.redo();
+        system.displayHistory();
 
-        undoValue = undoStack.pop();
-
-        if (undoValue != '0') {
-            redoStack.push(undoValue);
-            System.out.println("Undo: " + undoValue);
-        }
-
-        // ===================== REDO =====================
-
-        char redoValue = redoStack.pop();
-
-        if (redoValue != '0') {
-            undoStack.push(redoValue);
-            System.out.println("Redo: " + redoValue);
-        }
-
-        // ===================== REDO =====================
-
-        redoValue = redoStack.pop();
-
-        if (redoValue != '0') {
-            undoStack.push(redoValue);
-            System.out.println("Redo: " + redoValue);
-        }
+        // Redo
+        System.out.println("\n--- Redo ---");
+        system.redo();
+        system.displayHistory();
 
         inp.close();
     }
