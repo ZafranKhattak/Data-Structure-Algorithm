@@ -13,12 +13,25 @@ class  BalancedParenthesesUsingStack
         this.count = 0;
     }
 
-    // =================== PUSH METHOD    =====================
+    // =================== PUSH METHOD =====================
     void push(char value)
     {
-        array[count++] = value;
+        array[count] = value;
+        count++;
     }
 
+    // =================== POP METHOD ===================
+    char pop()
+    {
+        if(isEmpty())
+        {
+            return '0';
+        }
+        char ch = array[count];
+        count--;
+
+        return ch;
+    }
     void balancedParanthesisChecking()
     {
 
