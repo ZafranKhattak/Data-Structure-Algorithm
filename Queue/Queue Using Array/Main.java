@@ -1,11 +1,11 @@
-class SimpleQueue {
+class Queue {
     int arr[];
     int front;
     int rear;
     int size;
     int count;
 
-    public SimpleQueue(int size) {
+    public Queue(int size) {
         this.count = 0;
         this.front = -1;
         this.rear = -1;
@@ -57,7 +57,7 @@ class SimpleQueue {
 class Main {
     public static void main(String[] args) {
 
-        SimpleQueue simple = new SimpleQueue(5);
+        Queue simple = new Queue(5);
         simple.enQueue(1);
         simple.enQueue(2);
         simple.enQueue(3);

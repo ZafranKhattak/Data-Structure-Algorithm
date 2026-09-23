@@ -82,6 +82,15 @@ class QueueUsingStacks {
         }
         return  result;
     }
+
+    // ======================= PEEK METHOD =======================
+
+    int peek()
+    {
+        int value = stack1.top;
+        return value;
+        
+    }
 }
 
 public class Main {
@@ -95,9 +104,6 @@ public class Main {
         stk.enqueue(5);
 
         System.out.println(stk.deque());
-        System.out.println(stk.deque());
-        System.out.println(stk.deque());
-        System.out.println(stk.deque());
-        System.out.println(stk.deque());
+        System.out.println(stk.peek());
     }
 }
