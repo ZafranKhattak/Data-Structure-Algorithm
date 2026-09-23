@@ -1,36 +1,31 @@
-class Node 
-{
+class Node {
     int data;
     Node next;
 
-     Node(int data)
-    {
+    Node(int data) {
         this.data = data;
         this.next = null;
     }
 
-    void display()
-    {
+    void display() {
         System.out.println(data);
     }
 }
 
 // ================= QUEUE CLASS =================
-class Queue
-{
+class Queue {
     Node front;
     Node back;
-        Queue(){
-            this.front = null;
-            this.back = null;
-        }
-        
+
+    Queue() {
+        this.front = null;
+        this.back = null;
+    }
+
     // ============== ENQUEUE METHOD ==================
-    void enQueue(int data)
-    {
+    void enQueue(int data) {
         Node addFront = new Node(data);
-        if(isEmpty())
-        {
+        if (isEmpty()) {
             back = addFront;
             front = addFront;
         }
@@ -40,54 +35,54 @@ class Queue
     }
 
     // ============== DEQUEUE METHOD ===================
-    int deQueue()
-    {
-        if(isEmpty())
-        {
+    int deQueue() {
+        if (isEmpty()) {
             System.out.println("Queue is Empty");
             return -1;
         }
 
         int value = back.data;
         back = back.next;
-        return  value;
+        if (back == null) {
+            System.out.println("Queue is Emtpy");
+            front = null;
+        }
+        return value;
     }
 
     // ============== DISPLAY METHOD ==============
-    void display()
-    {
-        if(isEmpty())
-        {
+    void display() {
+        if (isEmpty()) {
             System.out.println("Queue is Emtpy");
-            return ;
+            return;
         }
 
         Node current = back;
 
-        while(current !=null)
-        {
+        while (current != null) {
             System.out.println("Value " + current.data + " has been added");
 
             current = current.next;
         }
     }
-    // ============== PEEK    METHOD ==============
-    int peek()
-    {
+
+    // ============== PEEK METHOD ==============
+    int peek() {
+        if (isEmpty()) {
+            System.out.println("Queue is Empty");
+            return -1;
+        }
         return back.data;
     }
     // ============== ISEMPTY METHOD ==============
 
-    boolean isEmpty()
-    {
+    boolean isEmpty() {
         return front == null;
     }
 }
 
-class Main 
-{
-    public static void main(String args[])
-    {
+class Main {
+    public static void main(String args[]) {
 
         Queue list = new Queue();
         list.enQueue(10);
