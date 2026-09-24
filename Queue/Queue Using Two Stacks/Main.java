@@ -37,13 +37,14 @@ class Stacks {
         return top == -1;
     }
 
-    // ===================== FULL METHO =======================
+    // ===================== FULL METHO ======================
 
     boolean isFull() {
         return top == size - 1;
     }
 }
 
+    // ==================== QUEUEUSINGSTACKS CLASS ====================
 class QueueUsingStacks {
 
     Stacks stack1;
@@ -87,9 +88,8 @@ class QueueUsingStacks {
 
     int peek()
     {
-        int value = stack1.top;
+        int value = stack1.array[stack1.top];
         return value;
-        
     }
 }
 
