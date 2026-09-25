@@ -1,92 +1,78 @@
-class Stack 
-{
+class Stack {
     int array[];
     int size;
     int top;
 
-    Stack(int size)
-    {
+    Stack(int size) {
         this.size = size;
         this.top = -1;
         array = new int[size];
     }
 
     // ===================== PUSH METHOD ======================
-    void push(int data)
-    {
-        if(isFull())
-        {
+    void push(int data) {
+        if (isFull()) {
             return;
         }
 
-        array[top+1] = data;
+        array[top + 1] = data;
         top++;
     }
 
     // ===================== POP METHOD =========================
-    int pop()
-    {
-        if(isEmpty())
-        {
+    int pop() {
+        if (isEmpty()) {
             return -1;
         }
 
-        int value = array[top-1];
+        int value = array[top];
         top--;
 
         return value;
     }
 
     // ===================== ISEMPTY METHOD =====================
-    boolean isEmpty()
-    {
+    boolean isEmpty() {
         return top == -1;
     }
 
     // ===================== ISFULL METHOD =====================
-    boolean isFull()
-    {
-        return top == size -1;
+    boolean isFull() {
+        return top == size - 1;
     }
 }
 
-    // ===================== QUEUE CLASS   ====================
+// ===================== QUEUE CLASS ====================
 
-class Queue 
-{
-   Stack stack ;
-   int array[];
-   int size;
-   int tail;
-   int front;
+class Queue {
+    Stack stack;
+    int array[];
+    int size;
+    int tail;
+    int front;
 
-   public Queue(int size)
-   {
+    public Queue(int size) {
         stack = new Stack(size);
         array = new int[size];
         this.size = size;
         this.tail = 0;
         this.front = 0;
-   }
+    }
 
-   // ===================== ENQUEUE METHOD  =====================
+    // ===================== ENQUEUE METHOD =====================
 
-   void enQueue(int data)
-   {
-        if(isFull())
-        {
-            return ;
+    void enQueue(int data) {
+        if (isFull()) {
+            return;
         }
 
         array[tail] = data;
         tail++;
-   }
+    }
 
     // ===================== DEQUEUE METHOD =====================
-    int deQueue()
-    {
-        if(isEmpty())
-        {
+    int deQueue() {
+        if (isEmpty()) {
             return -1;
         }
 
@@ -97,39 +83,49 @@ class Queue
     }
 
     // ===================== REVERSE QUEUE METHOD ===============
-    void reverseQueue()
-    {
-        if(stack.isEmpty())
-        {
+    void reverseQueue() {
+        if (stack.isEmpty()) {
             System.out.println("Queue is Empty !");
-            return ;
+            return;
         }
 
-        int value = 0;
-        while(stack.top > 0)
-        {
-            value = stack.pop();
+        while (!isEmpty()) {
+            deQueue();
         }
 
+        while (!stack.isEmpty()) {
+            enQueue(stack.pop());
+        }
+        for (int i = front; i < tail; i++) 
+            { 
+                System.out.print(array[i] + " "); 
+            } System.out.println();
     }
+
     // ===================== ISEMPTY METHOD =====================
-    boolean isEmpty()
-    {
-        return size == 0;
+    boolean isEmpty() {
+        return tail == front;
     }
 
     // ===================== ISFULL METHOD =====================
-    boolean isFull()
-    {
-        return  size == 0;
+    boolean isFull() {
+        return size == tail;
     }
 }
 
+    // ===================== MAIN CLASS ========================
+class Main {
+    public static void main(String args[]) {
 
-class Main
-{
-    public static void main(String args[])
-    {
+        Queue queue = new Queue(5);
 
+        queue.enQueue(10);
+        queue.enQueue(20);
+        queue.enQueue(30);
+        queue.enQueue(40);
+        queue.enQueue(50);
+
+        queue.reverseQueue();
     }
 }
+
