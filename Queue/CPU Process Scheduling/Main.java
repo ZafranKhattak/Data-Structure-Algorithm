@@ -71,11 +71,5 @@ public class Main {
         process.display();
         System.out.println("Process " + process.executeProcess() + " has Done");
         process.display();
-        System.out.println("Process " + process.executeProcess() + " has Done");
-        System.out.println("Process " + process.executeProcess() + " has Done");
-        System.out.println("Process " + process.executeProcess() + " has Done");
-        System.out.println("Process " + process.executeProcess() + " has Done");
-        process.display();
-        System.out.println(process.isEmpty());
     }
 }
