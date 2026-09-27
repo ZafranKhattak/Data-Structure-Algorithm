@@ -29,8 +29,8 @@ class MergedSortedLinkedList {
         if (head1 == null) {
             head1 = addFront;
             tail1 = addFront;
-            return ;
-        } 
+            return;
+        }
         tail1.next = addFront;
         tail1 = addFront;
 
@@ -42,7 +42,7 @@ class MergedSortedLinkedList {
         if (head2 == null) {
             head2 = addFront;
             tail2 = addFront;
-            return ;
+            return;
         }
 
         tail2.next = addFront;
@@ -51,30 +51,33 @@ class MergedSortedLinkedList {
 
     // =========== MERGED SORTFIRST AND SORTSECOND ==============
 
-    void displayMerging() {
+    Node mergingLinkedList() {
 
         if (head1 == null || head2 == null) {
             System.out.print("One LinkedList is Empty");
-            return;
+            return null;
         }
 
-        Node temp = head1;
-        while (temp.next != null) {
-            temp = temp.next;
+        Node current = head1;
+        Node temp = head2;
+
+        while (current != null && temp != null) {
+
+            Node selected;
+
+            if (current.data < temp.data) {
+                selected = current;
+                current = current.next;
+            } else {
+                selected = temp;
+                temp = temp.next;
+            }
         }
 
-        System.out.println(temp.data);
-        temp.next = head2;
-
-        Node temp2 = head1;
-        while (temp2 != null) {
-            System.out.print(temp2.data + " ");
-            temp2 = temp2.next;
-        }
+        
     }
-}
 
-// ================== CLASS MAIN =================
+    // ================== CLASS MAIN =================
 
 class Main {
     public static void main(String[] args) {
@@ -82,9 +85,11 @@ class Main {
         list.sortFirst(10);
         list.sortFirst(20);
         list.sortFirst(30);
+
+        // ========== second sort ================
         list.sortSecond(40);
         list.sortSecond(50);
         list.sortSecond(60);
-        list.displayMerging();
+        list.mergingLinkedList();
     }
 }
