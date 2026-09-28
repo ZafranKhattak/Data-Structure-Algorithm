@@ -25,7 +25,7 @@ class DetectCycle {
 
             head = addValue;
             tail = addValue;
-            System.out.print(data + " ");
+            
             return;
         }
 
