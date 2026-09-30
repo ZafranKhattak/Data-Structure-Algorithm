@@ -40,27 +40,22 @@ class LinkedList implements List {
 
     // ============== ADD NODE METHOD ==================
     public void add(int data, Node n) {
+
         Node current = head;
 
-        if (current.next.data == tail.data) {
-            tail.next = n;
-            tail = n;
-            size++;
-        } else {
-            while (current != null) {
-                if (current.data == data) {
-                    n.next = current.next;
-                    current.next = n;
-                    size++;
-                    return;
-                }
-
-                current = current.next;
+        while (current != null) {
+            if (current.data == data) {
+                n.next = current.next;
+                current.next = n;
+                size++;
+                return;
             }
+
+            current = current.next;
         }
     }
 
-    // ============= ADD NODE ====================
+    // ============= ADD NODE =============
     public void add(Node n) {
         if (head == null) {
             head = n;
@@ -77,17 +72,34 @@ class LinkedList implements List {
     public void remove(int data) {
 
         if (isEmpty()) {
+            System.out.println("Linked List is Empty");
+            return;
+        }
+
+        if (head.data == data) {
+            head = head.next;
+            size--;
+
+            if (head == null) {
+                tail = null;
+            }
+
             return;
         }
 
         Node current = head;
+
         while (current.next != null) {
+
             if (current.next.data == data) {
+
+                if (current.next == tail) {
+                    tail = current;
+                }
                 current.next = current.next.next;
                 size--;
                 return;
             }
-
             current = current.next;
         }
         System.out.println("Value not Found");
@@ -156,39 +168,32 @@ public class Main {
 
         LinkedList list = new LinkedList();
 
-        // Nodes create karo
         Node n1 = new Node(10);
         Node n2 = new Node(20);
         Node n3 = new Node(30);
         Node n4 = new Node(40);
 
-        // End mein nodes add karo
         list.add(n1);
         list.add(n2);
         list.add(n3);
 
         System.out.println(list);
 
-        // Given data ke baad node add karo
         list.add(20, n4);
 
         System.out.println(list);
 
-        // Data se remove
         list.remove(30);
 
         System.out.println(list);
 
-        // Node se remove
         Node n5 = new Node(40);
         list.remove(n5);
 
         System.out.println(list);
 
-        // Size
         System.out.println("Size: " + list.size());
 
-        // Empty check
         System.out.println("Empty: " + list.isEmpty());
     }
 }
