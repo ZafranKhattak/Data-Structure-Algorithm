@@ -23,15 +23,15 @@ class Stack
     
     void push(int value)
     {
-        Node addBack = new Node(value);
+        Node addFront = new Node(value);
         if(isEmpty())
         {
-            top = addBack;
+            top = addFront;
             return ;
         }
 
-        addBack.next = top;
-        top = addBack;
+        addFront.next = top;
+        top = addFront;
     }
 
     // ============== POP METHOD =================
