@@ -37,17 +37,24 @@ class LinkedList {
     void listMethod() {
         Node current = head;
 
+        int max1 = current.data;
+        int min1 = current.data;
+       
         while (current != null) {
 
             if (current.data % 3 == 0) {
                 System.out.println("Divide by 3 ->" + current.data + " ");
             } else if (current.data % 5 == 0) {
                 System.out.println("Divide by 5 -> " +current.data + " ");
+                
             } else if (current.data % 3 != 0 && current.data % 5 != 0) {
                 System.out.println("Divide by not 3 nor 5-> " +current.data + " ");
+               
             }
             current = current.next;
         }
+
+        System.out.println(max1 + " " + " " + min1);
     }
 }
       
