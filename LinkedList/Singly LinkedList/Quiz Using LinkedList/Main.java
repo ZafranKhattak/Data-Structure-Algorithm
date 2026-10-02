@@ -32,29 +32,17 @@ class LinkedList {
         }
     }
 
-    // ===================== NOW LIST METHOD AND LOGIC ============
+    // ===================== DISPLAY METHOD =====================
 
-    void listMethod() {
+    void display() {
         Node current = head;
 
-        int max1 = current.data;
-        int min1 = current.data;
-       
         while (current != null) {
 
-            if (current.data % 3 == 0) {
-                System.out.println("Divide by 3 ->" + current.data + " ");
-            } else if (current.data % 5 == 0) {
-                System.out.println("Divide by 5 -> " +current.data + " ");
-                
-            } else if (current.data % 3 != 0 && current.data % 5 != 0) {
-                System.out.println("Divide by not 3 nor 5-> " +current.data + " ");
-               
-            }
+            System.out.print(current.data + "->");
             current = current.next;
         }
 
-        System.out.println(max1 + " " + " " + min1);
     }
 }
       
@@ -70,6 +58,39 @@ class Main {
         list.insert(13);
         list.insert(17);
 
-        list.listMethod();
+        LinkedList value3 = new LinkedList();
+        LinkedList value5 = new LinkedList();
+        LinkedList notVlaue = new LinkedList();
+
+        Node current = list.head;
+
+        while (current !=null) {
+            
+            if(current.data % 3 == 0)
+            {
+                value3.insert(current.data);
+            }else if(current.data % 5 == 0)
+            {
+                value5.insert(current.data);
+            }
+            else 
+            {
+                notVlaue.insert(current.data);
+            }
+
+            current = current.next;
+        }
+
+        System.out.print("Value Divied by 3 -> ");
+        value3.display();
+        System.out.println();
+
+        System.out.print("Value Divied by 5 -> ");
+        value5.display();
+        System.out.println();
+
+        System.out.print("Value Divied by not 3 and 5 -> ");
+        notVlaue.display();
+        System.out.println();
     }
 }
