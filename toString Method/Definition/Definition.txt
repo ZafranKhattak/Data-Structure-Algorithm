@@ -1,0 +1,4 @@
+toString
+Java mein toString() aik method hai 
+jo kisi object ko String (text) ki 
+form mein represent karta hai.
