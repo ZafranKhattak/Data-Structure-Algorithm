@@ -12,8 +12,8 @@ class Stack {
 
     void push(int data) {
         if (isFull()) {
-        System.out.println("Stack is Full!");
-        return;
+            System.out.println("Stack is Full!");
+            return;
         }
 
         arr[top + 1] = data;
@@ -38,6 +38,10 @@ class Stack {
     // ================ PEEK METHOD ==================
 
     int peek() {
+        if (isEmpty()) {
+            System.out.println("Stack is Empty");
+            return -1;
+        }
         return arr[top];
     }
 
@@ -48,19 +52,19 @@ class Stack {
 
     // ================ ISFULL METHOD =================
     boolean isFull() {
-    return top == capacity-1;
+        return top == capacity - 1;
     }
 
     // ================ SIZE METHOD ===============
     int size() {
-        return top+1;
+        return top + 1;
     }
 
     // ================= COUNT REPEADED NUMBER ==========
     int countOccurrences(Stack stack, int x) {
         int count = 0;
 
-        for (int i = 0; i <=stack.top; i++) {
+        for (int i = 0; i <= stack.top; i++) {
             if (stack.arr[i] == x) {
                 count++;
             }
@@ -70,28 +74,28 @@ class Stack {
     }
 
     // ================= MAXIMUM NUMBER METHOD ==========
-    int findMaximum(Stack stack)
-    {
-        if(stack.isEmpty())
-        {
+    int findMaximum(Stack stack) {
+        if (stack.isEmpty()) {
             System.out.println("List is Empty");
             return -1;
-        }   
+        }
 
         Stack temp = new Stack(stack.capacity);
         int max = stack.peek();
 
-        while(!stack.isEmpty()){
+        while (!stack.isEmpty()) {
             int re = stack.pop();
-            if(re > max)    max = re;
+            if (re > max)
+                max = re;
             temp.push(re);
         }
 
-        while(!temp.isEmpty()){
+        while (!temp.isEmpty()) {
             stack.push(temp.pop());
-        }  
+        }
         return max;
     }
+
     // ================= DISPLAY METHOD =================
     void display() {
         if (isEmpty()) {
@@ -108,7 +112,6 @@ class Stack {
 class Main {
     public static void main(String args[]) {
 
-       
         Stack stk = new Stack(5);
         int arr[] = { 1, 3, 3, 4, 5 };
 
@@ -136,7 +139,6 @@ class Main {
         // stk.display();
         System.out.println(stk.peek());
         stk.display();
-
 
     }
 }
