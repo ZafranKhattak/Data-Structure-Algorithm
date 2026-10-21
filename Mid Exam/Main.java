@@ -64,10 +64,23 @@ class Stack {
     int countOccurrences(Stack stack, int x) {
         int count = 0;
 
-        for (int i = 0; i <= stack.top; i++) {
-            if (stack.arr[i] == x) {
+        Stack copy = new Stack(stack.capacity);
+
+        while(!stack.isEmpty())
+        {
+            int temp = pop();
+
+            if(temp == x)
+            {
                 count++;
             }
+
+            copy.push(temp);
+        }
+
+        while (!copy.isEmpty()) {
+
+            stack.push(copy.pop());
         }
 
         return count;
@@ -113,30 +126,30 @@ class Main {
     public static void main(String args[]) {
 
         Stack stk = new Stack(5);
-        int arr[] = { 1, 3, 3, 4, 5 };
+        int arr[] = { 5, 3, 3, 4, 1 };
 
         for (int num : arr) {
             stk.push(num);
         }
 
-        // stk.display();
-        // System.out.println();
-        // System.out.println("==================");
-        // System.out.println(stk.peek());
-        // System.out.println(stk.size());
-        // System.out.println(stk.pop());
+        stk.display();
+        System.out.println();
+        System.out.println("==================");
+        System.out.println(stk.peek());
+        System.out.println(stk.size());
+        System.out.println(stk.pop());
 
         System.out.println("==================");
-        // int result = stk.countOccurrences(stk, 3);
-        // System.out.println(result);
-        // stk.display();
-        // System.out.println();
+        int result = stk.countOccurrences(stk, 3);
+        System.out.println("Ocurred " + result);
+        stk.display();
+        System.out.println();
 
-        // System.out.println(stk.peek());
+        System.out.println(stk.peek());
 
         System.out.println(stk.findMaximum(stk));
-        // System.out.println(stk.peek());
-        // stk.display();
+        System.out.println(stk.peek());
+        stk.display();
         System.out.println(stk.peek());
         stk.display();
 
