@@ -80,7 +80,8 @@ class Stack {
 
         while (!copy.isEmpty()) {
 
-            stack.push(copy.pop());
+            int re = copy.pop();
+            stack.push(re);
         }
 
         return count;
@@ -153,5 +154,7 @@ class Main {
         System.out.println(stk.peek());
         stk.display();
 
+        // solve for more
+        
     }
 }
