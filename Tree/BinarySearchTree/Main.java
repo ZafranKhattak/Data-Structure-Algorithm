@@ -39,8 +39,8 @@ class BinarySearchTree {
 // ===================== MAIN CLASS ======================
 public class Main {
     public static void main(String[] args) {
+        
         BinarySearchTree tree = new BinarySearchTree();
-
         Node root = null;
 
         root = tree.insert(root, 50);
