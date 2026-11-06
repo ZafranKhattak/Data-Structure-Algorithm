@@ -60,33 +60,72 @@ class BinarySearchTree {
         }
     }
 
-    // ==================== DISPLAY USING INORDER METHOD ============
-    void display()
-    {
-        inorder(root);
+    // ==================== INORDER USING INORDER METHOD ============
+    void inorder() {
+        inorderTraverseRecursive(root);
     }
-    void inorder(Node node)
+
+    // ==================== inorderTraverseRecursive ================
+    void inorderTraverseRecursive(Node node) {
+        if (node == null) {
+            return ;
+        }
+        inorderTraverseRecursive(node.left);
+        System.out.print(node.data + " ");
+        inorderTraverseRecursive(node.right);
+    }
+
+    // ==================== PREORDER METHOD ====================
+    
+    void preorder() 
+    {
+        preorderTraverseRecursive(root);
+    }
+
+    void preorderTraverseRecursive(Node node)
     {
         if(node == null)
         {
-            throw new RuntimeException("Tree is Empty!");
+            return ;
         }
-        inorder(node.left);
-        System.out.print(node.data);
-        inorder(node.right);
+
+        System.out.print(node.data + " ");
+        preorderTraverseRecursive(node.left);
+        preorderTraverseRecursive(node.right);
     }
 
+    // ==================== postorder ================
+    void postorder()
+    {
+        postorderTraverseRecursive(root);
+    }
+
+    void postorderTraverseRecursive(Node node)
+    {
+        if(node == null)
+        {
+            return ;
+        }
+        postorderTraverseRecursive(node.left);
+        postorderTraverseRecursive(node.right);
+        postorderTraverseRecursive(node.data + " ");
+    }
 }
 
 public class Main {
     public static void main(String[] args) {
 
         BinarySearchTree tree = new BinarySearchTree();
-        tree.insert(10);
-        tree.insert(20);
         tree.insert(30);
+        tree.insert(25);
+        tree.insert(35);
         tree.insert(40);
+        tree.insert(34);
+        tree.insert(24);
+        tree.insert(26);
 
-        tree.display();
+        // tree.inorder();
+        // tree.preorder();
+        tree.postorder();
     }
 }
